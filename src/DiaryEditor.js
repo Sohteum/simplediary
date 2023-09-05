@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 const DiaryEditor = () => {
 
     const authorInput = useRef()
+    const contentInput = useRef()
 
     const [state, setState] = useState({
         author: "",
@@ -26,7 +27,7 @@ const DiaryEditor = () => {
             return;
         }
         if (state.content.length < 5) {
-            authorInput.current.focus();
+            contentInput.current.focus();
 
             return;
         }
@@ -40,7 +41,7 @@ const DiaryEditor = () => {
             <input ref={authorInput} name="author" value={state.author}
                 onChange={handleChangeState} />
             <div>
-                <textarea name="content" value={state.content}
+                <textarea ref={contentInput} name="content" value={state.content}
                     onChange={handleChangeState} />
             </div>
             <div>
