@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import './App.css';
 import DiaryEditor from './DiaryEditor';
 import DiaryList from './DiaryList';
 import Lifecycle from './Lifecycle';
+import OptimizeText from './OptimizeText';
 
 // const dummyList = [
 //   {
@@ -92,10 +93,28 @@ function App() {
     )
   }
 
+  const getDiaryAnalysis = useMemo(//함수의 연산을 활용한 연산최적화.
+    ()=>{
+    // console.log("일기분석 시작!")
+
+    const goodCount = data.filter((it)=>it.emotion>=3).length;
+    const badCount = data.length - goodCount;
+    const goodRatio = (goodCount / data.length)*100;
+    return {goodCount, badCount, goodRatio}
+  }, [data.length]
+  );//이렇게 하면 얘는 더이상 함수가 아님. 값을 리턴하게됨. 
+
+const {goodCount, badCount, goodRatio} = getDiaryAnalysis;//여기서 괄호 제거해서 값으로 호출해야함
+
   return (
     <div className="App">
-      <Lifecycle />
+      {/* <OptimizeText/> */}
+      {/* <Lifecycle /> */}
       <DiaryEditor onCreate={onCreate} />
+      <div>전체일기: {data.length}</div>
+      <div>기분 좋은 일기 개수: {goodCount}</div>
+      <div>기분 나쁜 일기 개수: {badCount}</div>
+      <div>기분 좋은 일기 비율: {goodRatio}</div>
       <DiaryList onRemove={onRemove} onEdit={onEdit} diaryList={data} />
 
     </div>
