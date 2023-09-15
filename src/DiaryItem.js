@@ -1,6 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
+import { DiaryDispatchContext } from './App';
 
-const DiaryItem = ({ author, content, created_date, emotion, id, onRemove, onEdit }) => {
+const DiaryItem = ({ author, content, created_date, emotion, id  }) => {
+
+    const {onRemove, onEdit} = useContext(DiaryDispatchContext)
 
     const [isEdit, setIsEdit] = useState(false);
     const [localContent, setLocalContent] = useState(content);
